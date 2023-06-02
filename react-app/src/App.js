@@ -1,4 +1,6 @@
 import './App.css';
+// Hook -> useState
+import {useState} from 'react';
 
 // 사용자 정의 태그
 function Header(props) {
@@ -24,7 +26,7 @@ function Nav(props) {
     lis.push(<li key={t.id}> 
       <a id={t.id} href={'/read/'+t.id} onClick={event => {
         event.preventDefault();
-        props.onChangeMode(event.target.id);
+        props.onChangeMode(Number(event.target.id));
         // event를 보여주는데, 대상은 onChangeMode={(id) => { alert(id);}}
       }}>{t.title}</a></li>);
   }
@@ -48,7 +50,9 @@ function Article(props) {
 }
 
 function App() {
-  const mode = "WELCOME";
+  const [mode, setMode] = useState("WELCOME");
+  const [id, setId] = useState(null);
+  // console.log("_mode", _mode);
   const topics = [
     {id:1, title:'html', body:'html is ...'},
     {id:2, title:'css', body:'css is ...'},
@@ -58,16 +62,27 @@ let content = null;
 if(mode === "WELCOME") {
 content = <Article title = "Welcome" body="Hello, Good Day"></Article>
 } else if (mode === "READ") {
-content = <Article title = "Welcome" body="Hello, Read"></Article>
+  let title, body = null;
+  for(let i=0; i<topics.length; i++) {
+    console.log(topics[i].id, id);
+    if(topics[i].id === id) {
+      title = topics[i].title;
+      body = topics[i].body;
+    }
+  } 
+content = <Article title = {title} body={body}></Article>
 }
   return (
     <div>
-      <Header title="WEB" onChangeMode={function() {
-        alert("Header");
+      <Header title="WEB" onChangeMode={() => {
+        setMode("WELCOME");
+        //alert("Header");
       }}></Header>
       {/* 3. 함수(Header)의 props(Parameter)를 통채로 onChangeMode에 넘김 (2번) */}
-      <Nav topics={topics} onChangeMode={(id) => {
-        alert(id);
+      <Nav topics={topics} onChangeMode={(_id) => {
+        setMode("READ");
+        setId(_id);
+        //alert(id);
       }}></Nav>
       {content}
     </div>
