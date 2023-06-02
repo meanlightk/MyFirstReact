@@ -49,6 +49,22 @@ function Article(props) {
   )
 }
 
+function Create() {
+  return (
+    <article>
+      <h2>Create</h2>
+      <form>
+        {/* 제목 입력 폼 */}
+        <p><input type="text" name="title" placeholder="title" /></p>
+        {/* 내용 입력 폼 */}
+        <p><textarea name="body" placeholder="body"></textarea></p>
+        {/* 전송 버튼 */}
+        <p><input type="submit" value="Create"></input></p>
+      </form>
+    </article>
+  )
+}
+
 function App() {
   const [mode, setMode] = useState("WELCOME");
   const [id, setId] = useState(null);
@@ -68,9 +84,11 @@ content = <Article title = "Welcome" body="Hello, Good Day"></Article>
     if(topics[i].id === id) {
       title = topics[i].title;
       body = topics[i].body;
-    }
+    } 
   } 
 content = <Article title = {title} body={body}></Article>
+} else if (mode === "CREATE") {
+  content = <Create></Create>
 }
   return (
     <div>
@@ -85,6 +103,10 @@ content = <Article title = {title} body={body}></Article>
         //alert(id);
       }}></Nav>
       {content}
+      <a href="/create" onClick={event => {
+        event.preventDefault();
+        setMode("CREATE");
+      }}>Create</a>
     </div>
   );
 }    
