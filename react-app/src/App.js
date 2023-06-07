@@ -122,7 +122,14 @@ contextControl = <li><a href={'/update/'+id} onClick={event=> {
     setNextId(nextId+1);
   }}></Create>
 } else if (mode === "UPDATE") {
-  content = <Update title={} body={} onUpdate={(title, body)=> {
+  let title, body = null;
+  for(let i=0; i<topics.length; i++) {
+    if(topics[i].id === id) {
+      title = topics[i].title;
+      body = topics[i].body;
+    } 
+  }
+  content = <Update title={title} body={body} onUpdate={(title, body)=> {
 
   }}></Update>
 }
