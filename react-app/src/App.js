@@ -50,8 +50,7 @@ function Article(props) {
 }
 
 function Create(props) {
-  return (
-    <article>
+  return <article>
       <h2>Create</h2>
       <form onSubmit={event=> {
         event.preventDefault();
@@ -59,15 +58,30 @@ function Create(props) {
         const body = event.target.body.value;
         props.onCreate(title, body);
       }}>
-        {/* 제목 입력 폼 */}
-        <p><input type="text" name="title" placeholder="title" /></p>
-        {/* 내용 입력 폼 */}
+        <p><intput type="text" name="title" placeholder="title" /></p>
         <p><textarea name="body" placeholder="body"></textarea></p>
-        {/* 전송 버튼 */}
         <p><input type="submit" value="Create"></input></p>
       </form>
+      </article>
+}
+
+function Update(props) {
+  return <article>
+      <h2>Update</h2>
+      <form onSubmit={event=> {
+        event.preventDefault();
+        const title = event.target.title.value;
+        const body = event.target.body.value;
+        props.onUpdate(title, body);
+      }}>
+        {/* 제목 입력 폼 */}
+        <p><input type="text" name="title" placeholder="title" value={props.title}/></p>
+        {/* 내용 입력 폼 */}
+        <p><textarea name="body" placeholder="body"  value={props.body}></textarea></p>
+        {/* 전송 버튼 */}
+        <p><input type="submit" value="Update"></input></p>
+      </form>
     </article>
-  )
 }
 
 function App() {
@@ -81,18 +95,22 @@ function App() {
   ]);
 
 let content = null;
+let contextControl = null;
 if(mode === "WELCOME") {
 content = <Article title = "Welcome" body="Hello, Good Day"></Article>
 } else if (mode === "READ") {
   let title, body = null;
   for(let i=0; i<topics.length; i++) {
-    console.log(topics[i].id, id);
     if(topics[i].id === id) {
       title = topics[i].title;
       body = topics[i].body;
     } 
   } 
 content = <Article title = {title} body={body}></Article>
+contextControl = <li><a href={'/update/'+id} onClick={event=> {
+  event.preventDefault();
+  setMode("UPDATE");
+}} >Update</a></li>
 } else if (mode === "CREATE") {
   content = <Create onCreate={(_title, _body)=> {
     const newTopic = {id:nextId, title:_title, body:_body}
@@ -103,6 +121,10 @@ content = <Article title = {title} body={body}></Article>
     setId(nextId);
     setNextId(nextId+1);
   }}></Create>
+} else if (mode === "UPDATE") {
+  content = <Update title={} body={} onUpdate={(title, body)=> {
+
+  }}></Update>
 }
   return (
     <div>
@@ -117,10 +139,13 @@ content = <Article title = {title} body={body}></Article>
         //alert(id);
       }}></Nav>
       {content}
-      <a href="/create" onClick={event => {
+      <ul>
+        <li><a href="/create" onClick={event => {
         event.preventDefault();
         setMode("CREATE");
-      }}>Create</a>
+      }}>Create</a></li>
+      {contextControl}
+        </ul>
     </div>
   );
 }    
