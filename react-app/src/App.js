@@ -66,6 +66,8 @@ function Create(props) {
 }
 
 function Update(props) {
+  const[title, setTitle] = useState(props.title);
+  const[body, setBody] = useState(props.body);
   return <article>
       <h2>Update</h2>
       <form onSubmit={event=> {
@@ -75,9 +77,13 @@ function Update(props) {
         props.onUpdate(title, body);
       }}>
         {/* 제목 입력 폼 */}
-        <p><input type="text" name="title" placeholder="title" value={props.title}/></p>
-        {/* 내용 입력 폼 */}
-        <p><textarea name="body" placeholder="body"  value={props.body}></textarea></p>
+        <p><input type="text" name="title" placeholder="title" value={title} onChange={event => {
+          setTitle(event.target.value);
+        }}/></p>
+        {/* 내용 입력 폼 */} 
+        <p><textarea name="body" placeholder="body" value={body} onChange={event=>{
+          setBody(event.target.value);
+        }}></textarea></p>
         {/* 전송 버튼 */}
         <p><input type="submit" value="Update"></input></p>
       </form>
@@ -130,7 +136,16 @@ contextControl = <li><a href={'/update/'+id} onClick={event=> {
     } 
   }
   content = <Update title={title} body={body} onUpdate={(title, body)=> {
-
+    console.log(title, body);
+    const newTopics = [...topics];
+    const updatedTopic = {id:id, title:title, body:body}
+    for (let i = 0; i <newTopics.length; i++) {
+      if(newTopics[i].id === id) {
+        newTopics[i] = updatedTopic;
+        break;
+      }
+    }
+    setTopics(newTopics);
   }}></Update>
 }
   return (
