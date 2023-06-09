@@ -1,4 +1,4 @@
-import React, {createContext} from 'react';
+import React, {createContext, useContext} from 'react';
 import './App.css';
 const themeDefault = {border: '10px solid red'};
 const themeContext = createContext(themeDefault);
