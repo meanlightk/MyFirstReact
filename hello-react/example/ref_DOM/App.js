@@ -1,13 +1,11 @@
 import { Component } from 'react';
 import './App.css';
-import ScrollBox from './ScrollBox';
+import ValidationSample from './ValidationSample';
 
 class App extends Component {
   render() {
     return (
-      <div>
-        <ScrollBox />
-      </div>
+      <ValidationSample />
     );
   }
 }
