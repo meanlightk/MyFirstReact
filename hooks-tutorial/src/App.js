@@ -1,8 +1,8 @@
-import Info from './Info';
+import Average from './Average';
 import './App.css';
 
 const App = () => {
-  return <Info />;
+  return <Average />;
 };
 
 
