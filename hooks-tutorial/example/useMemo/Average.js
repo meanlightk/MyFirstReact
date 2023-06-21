@@ -20,9 +20,8 @@ const Average = () => {
         setList(nextList);
         setNumber('');
     };
-
+    // useMemo가 없으면 값을 입력 및 수정할 때마다 console창에 값이 출력됨
     const avg = useMemo(() => getAverage(list), [list]);
-
     return (
         <div>
             <input value={number} onChange={onChange} />
