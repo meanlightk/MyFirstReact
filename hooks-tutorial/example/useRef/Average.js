@@ -11,6 +11,7 @@ const Average = () => {
     const [list, setList] = useState([]);
     const [number, setNumber] = useState('');
     const inputEl = useRef(null);
+    // useRef : '등록'버튼을 눌렀을 때, 포커스가 인풋 쪽으로 자동으로 넘어가도록 함.
 
     const onChange = useCallback(e => {
         setNumber(e.target.value);
